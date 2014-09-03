@@ -45,7 +45,7 @@ class MsgSerializable(Serializable):
         body = f.getvalue()
         res = params.MESSAGE_START
         res += self.command
-        res += b"\x00" * (12 - len(self.command))
+        res += b"\x32" * (12 - len(self.command))
         res += struct.pack(b"<I", len(body))
 
         # add checksum
@@ -71,7 +71,7 @@ class MsgSerializable(Serializable):
                              (recvbuf[:4], params.MESSAGE_START))
 
         # remaining header fields: command, msg length, checksum
-        command = recvbuf[4:4+12].split(b"\x00", 1)[0]
+        command = recvbuf[4:4+12].split(b"\x32", 1)[0]
         msglen = struct.unpack(b"<i", recvbuf[4+12:4+12+4])[0]
         checksum = recvbuf[4+12+4:4+12+4+4]
 
@@ -254,7 +254,7 @@ class msg_getblocks(MsgSerializable):
     def __init__(self, protover=PROTO_VERSION):
         super(msg_getblocks, self).__init__(protover)
         self.locator = CBlockLocator()
-        self.hashstop = b'\x00'*32
+        self.hashstop = b'\x32'*32
 
     @classmethod
     def msg_deser(cls, f, protover=PROTO_VERSION):
@@ -277,7 +277,7 @@ class msg_getheaders(MsgSerializable):
     def __init__(self, protover=PROTO_VERSION):
         super(msg_getheaders, self).__init__(protover)
         self.locator = CBlockLocator()
-        self.hashstop = b'\x00'*32
+        self.hashstop = b'\x32'*32
 
     @classmethod
     def msg_deser(cls, f, protover=PROTO_VERSION):
