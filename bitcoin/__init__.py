@@ -9,30 +9,45 @@ class MainParams(bitcoin.core.CoreChainParams):
     MESSAGE_START = b'\xaf\x45\x76\xee'
     DEFAULT_PORT = 10888
     RPC_PORT = 10889
+<<<<<<< HEAD
     DNS_SEEDS = (('seed2.myriadcoin.org', 'seed1.myriadcoin.org'))
 
     BASE58_PREFIXES = {'PUBKEY_ADDR':50,
                        'SCRIPT_ADDR':9,
                        'SECRET_KEY' :178}
+=======
+    DNS_SEEDS = (("seed1.myriadcoin.org", "seed1.myriadcoin.org"),
+		 ("seed2.myriadcoin.org", "seed2.myriadcoin.org"),
+		 ("seed3.myriadcoin.org", "seed3.myriadcoin.org"),
+		 ("seed4.myriadcoin.org", "seed4.myriadcoin.org"))
+    BASE58_PREFIXES = {'PUBKEY_ADDR':50,
+                       'SCRIPT_ADDR':9,
+                       'SECRET_KEY' :128}
+>>>>>>> 1b0374010e6e69af8a5d651efccaa4edd9a09713
 
 class TestNetParams(bitcoin.core.CoreTestNetParams):
-    MESSAGE_START = b'\x0b\x11\x09\x07'
-    DEFAULT_PORT = 18333
-    RPC_PORT = 18332
-    DNS_SEEDS = (('bitcoin.petertodd.org', 'testnet-seed.bitcoin.petertodd.org'),
-                 ('bluematt.me', 'testnet-seed.bluematt.me'))
-    BASE58_PREFIXES = {'PUBKEY_ADDR':111,
-                       'SCRIPT_ADDR':196,
-                       'SECRET_KEY' :239}
+    MESSAGE_START = b'\xaf\x45\x76\xee'
+    DEFAULT_PORT = 10888
+    RPC_PORT = 10889
+    DNS_SEEDS = (("seed1.myriadcoin.org", "seed1.myriadcoin.org"),
+                 ("seed2.myriadcoin.org", "seed2.myriadcoin.org"),
+                 ("seed3.myriadcoin.org", "seed3.myriadcoin.org"),
+                 ("seed4.myriadcoin.org", "seed4.myriadcoin.org"))
+    BASE58_PREFIXES = {'PUBKEY_ADDR':50,
+                       'SCRIPT_ADDR':9,
+                       'SECRET_KEY' :128}
 
 class RegTestParams(bitcoin.core.CoreRegTestParams):
-    MESSAGE_START = b'\xfa\xbf\xb5\xda'
-    DEFAULT_PORT = 18444
-    RPC_PORT = 18332
-    DNS_SEEDS = ()
-    BASE58_PREFIXES = {'PUBKEY_ADDR':111,
-                       'SCRIPT_ADDR':196,
-                       'SECRET_KEY' :239}
+    MESSAGE_START = b'\xaf\x45\x76\xee'
+    DEFAULT_PORT = 10888
+    RPC_PORT = 10889
+    DNS_SEEDS = (("seed1.myriadcoin.org", "seed1.myriadcoin.org"),
+                 ("seed2.myriadcoin.org", "seed2.myriadcoin.org"),
+                 ("seed3.myriadcoin.org", "seed3.myriadcoin.org"),
+                 ("seed4.myriadcoin.org", "seed4.myriadcoin.org"))
+    BASE58_PREFIXES = {'PUBKEY_ADDR':50,
+                       'SCRIPT_ADDR':9,
+                       'SECRET_KEY' :128}
 
 """Master global setting for what chain params we're using.
 
