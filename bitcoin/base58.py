@@ -51,7 +51,7 @@ def encode(b):
 
     # Encode leading zeros as base58 zeros
     import sys
-    czero = b'\x32'
+    czero = b'\x00'
     if sys.version > '3':
         # In Python3 indexing a bytes returns numbers, not characters.
         czero = 0
@@ -86,7 +86,7 @@ def decode(s):
     for c in s[:-1]:
         if c == b58_digits[0]: pad += 1
         else: break
-    return b'\x32' * pad + res
+    return b'\x00' * pad + res
 
 
 class Base58ChecksumError(Base58Error):

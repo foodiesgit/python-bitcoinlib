@@ -95,8 +95,8 @@ class RawProxy(object):
                 elif platform.system() == 'Windows':
                     btc_conf_file = os.path.join(os.environ['APPDATA'], 'Bitcoin')
                 else:
-                    btc_conf_file = os.path.expanduser('~/.myriadcoin')
-                btc_conf_file = os.path.join(btc_conf_file, 'myriadcoin.conf')
+                    btc_conf_file = os.path.expanduser('~/.bitcoin')
+                btc_conf_file = os.path.join(btc_conf_file, 'bitcoin.conf')
 
             # Extract contents of bitcoin.conf to build service_url
             with open(btc_conf_file, 'r') as fd:

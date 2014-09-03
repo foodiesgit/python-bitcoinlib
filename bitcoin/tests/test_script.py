@@ -296,10 +296,6 @@ class Test_CScript(unittest.TestCase):
 
         T(b'61', False)
 
-    def test_is_push_only_on_invalid_pushdata(self):
-        invalid_script = CScript(b'\x01')
-        self.assertFalse(invalid_script.is_push_only())
-
     def test_is_unspendable(self):
         def T(serialized, b):
             script = CScript(unhexlify(serialized))

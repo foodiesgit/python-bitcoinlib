@@ -32,32 +32,12 @@ MAX_SIZE = 0x02000000
 class SerializationError(Exception):
     """Base class for serialization errors"""
 
-<<<<<<< HEAD
-
-class SerializationTruncationError(SerializationError):
-=======
 class SerializationTruncationError(Exception):
->>>>>>> 1b0374010e6e69af8a5d651efccaa4edd9a09713
     """Serialized data was truncated
 
     Thrown by deserialize() and stream_deserialize()
     """
 
-<<<<<<< HEAD
-class DeserializationExtraDataError(SerializationError):
-    """Deserialized data had extra data at the end
-
-    Thrown by deserialize() when not all data is consumed during
-    deserialization. The deserialized object and extra padding not consumed are
-    saved.
-    """
-    def __init__(self, msg, obj, padding):
-        super(DeserializationExtraDataError, self).__init__(msg)
-        self.obj = obj
-        self.padding = padding
-
-=======
->>>>>>> 1b0374010e6e69af8a5d651efccaa4edd9a09713
 def ser_read(f, n):
     """Read from a stream safely
 
@@ -90,22 +70,9 @@ class Serializable(object):
         return f.getvalue()
 
     @classmethod
-    def deserialize(cls, buf, allow_padding=False):
-        """Deserialize bytes, returning an instance
-
-        allow_padding - Allow buf to include extra padding. (default False)
-
-        If allow_padding is False and not all bytes are consumed during
-        deserialization DeserializationExtraDataError will be raised.
-        """
-        fd = BytesIO(buf)
-        r = cls.stream_deserialize(fd)
-        if not allow_padding:
-            padding = fd.read()
-            if len(padding) != 0:
-                raise DeserializationExtraDataError('Not all bytes consumed during deserialization',
-                                                    r, padding)
-        return r
+    def deserialize(cls, buf):
+        """Deserialize bytes, returning an instance"""
+        return cls.stream_deserialize(BytesIO(buf))
 
     def __eq__(self, other):
         if (not isinstance(other, self.__class__) and

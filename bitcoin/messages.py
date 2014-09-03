@@ -22,82 +22,7 @@ MSG_TX = 1
 MSG_BLOCK = 2
 MSG_FILTERED_BLOCK = 3
 
-<<<<<<< HEAD
-
-class MsgSerializable(Serializable):
-    def __init__(self, protover=PROTO_VERSION):
-        self.protover = protover
-
-    def msg_ser(self, f):
-        raise NotImplementedError
-
-    @classmethod
-    def msg_deser(cls, f, protover=PROTO_VERSION):
-        raise NotImplementedError
-
-    def to_bytes(self, params=MainParams()):
-        f = BytesIO()
-        self.msg_ser(f)
-        body = f.getvalue()
-        res = params.MESSAGE_START
-        res += self.command
-        res += b"\x32" * (12 - len(self.command))
-        res += struct.pack(b"<I", len(body))
-
-        # add checksum
-        th = hashlib.sha256(body).digest()
-        h = hashlib.sha256(th).digest()
-        res += h[:4]
-
-        res += body
-        return res
-
-    @classmethod
-    def from_bytes(cls, b, protover=PROTO_VERSION):
-        f = BytesIO(b)
-        return MsgSerializable.stream_deserialize(f, protover=protover)
-
-    @classmethod
-    def stream_deserialize(cls, f, params=MainParams(), protover=PROTO_VERSION):
-        recvbuf = ser_read(f, 4 + 12 + 4 + 4)
-
-        # check magic
-        if recvbuf[:4] != params.MESSAGE_START:
-            raise ValueError("Invalid message start '%s', expected '%s'" %
-                             (recvbuf[:4], params.MESSAGE_START))
-
-        # remaining header fields: command, msg length, checksum
-        command = recvbuf[4:4+12].split(b"\x32", 1)[0]
-        msglen = struct.unpack(b"<i", recvbuf[4+12:4+12+4])[0]
-        checksum = recvbuf[4+12+4:4+12+4+4]
-
-        # read message body
-        recvbuf += ser_read(f, msglen)
-
-        msg = recvbuf[4+12+4+4:4+12+4+4+msglen]
-        th = hashlib.sha256(msg).digest()
-        h = hashlib.sha256(th).digest()
-        if checksum != h[:4]:
-            raise ValueError("got bad checksum %s" % repr(recvbuf))
-            recvbuf = recvbuf[4+12+4+4+msglen:]
-
-        if command in messagemap:
-            cls = messagemap[command]
-            #        print("Going to deserialize '%s'" % msg)
-            return cls.msg_deser(BytesIO(msg))
-        else:
-            print("Command '%s' not in messagemap" % str(command, 'ascii'))
-            return None
-
-    def stream_serialize(self, f):
-        data = self.to_bytes()
-        f.write(data)
-
-
-class msg_version(MsgSerializable):
-=======
 class msg_version(object):
->>>>>>> 1b0374010e6e69af8a5d651efccaa4edd9a09713
     command = b"version"
     def __init__(self, protover=PROTO_VERSION):
         self.protover = MIN_PROTO_VERSION
@@ -212,21 +137,6 @@ class msg_getblocks(object):
     def __init__(self, protover=PROTO_VERSION):
         self.protover = protover
         self.locator = CBlockLocator()
-<<<<<<< HEAD
-        self.hashstop = b'\x32'*32
-
-    @classmethod
-    def msg_deser(cls, f, protover=PROTO_VERSION):
-        c = cls()
-        c.locator = CBlockLocator.stream_deserialize(f)
-        c.hashstop = ser_read(f, 32)
-        return c
-
-    def msg_ser(self, f):
-        self.locator.stream_serialize(f)
-        f.write(self.hashstop)
-
-=======
         self.hashstop = 0
     def deserialize(self, f):
         self.locator = CBlockLocator()
@@ -237,7 +147,6 @@ class msg_getblocks(object):
         r += self.locator.serialize()
         r += self.hashstop
         return r
->>>>>>> 1b0374010e6e69af8a5d651efccaa4edd9a09713
     def __repr__(self):
         return "msg_getblocks(locator=%s hashstop=%064x)" % (repr(self.locator), self.hashstop)
 
@@ -246,21 +155,6 @@ class msg_getheaders(object):
     def __init__(self, protover=PROTO_VERSION):
         self.protover = protover
         self.locator = CBlockLocator()
-<<<<<<< HEAD
-        self.hashstop = b'\x32'*32
-
-    @classmethod
-    def msg_deser(cls, f, protover=PROTO_VERSION):
-        c = cls()
-        c.locator = CBlockLocator.stream_deserialize(f)
-        c.hashstop = ser_read(f, 32)
-        return c
-
-    def msg_ser(self, f):
-        self.locator.stream_serialize(f)
-        f.write(self.hashstop)
-
-=======
         self.hashstop = 0
     def deserialize(self, f):
         self.locator = CBlockLocator()
@@ -271,7 +165,6 @@ class msg_getheaders(object):
         r += self.locator.serialize()
         r += self.hashstop
         return r
->>>>>>> 1b0374010e6e69af8a5d651efccaa4edd9a09713
     def __repr__(self):
         return "msg_getheaders(locator=%s hashstop=%064x)" % (repr(self.locator), self.hashstop)
 
