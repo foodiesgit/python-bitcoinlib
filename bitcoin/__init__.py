@@ -6,17 +6,14 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import bitcoin.core
 
 class MainParams(bitcoin.core.CoreChainParams):
-    MESSAGE_START = b'\xf9\xbe\xb4\xd9'
-    DEFAULT_PORT = 8333
-    RPC_PORT = 8332
-    DNS_SEEDS = (('bitcoin.sipa.be', 'seed.bitcoin.sipa.be'),
-                 ('bluematt.me', 'dnsseed.bluematt.me'),
-                 ('dashjr.org', 'dnsseed.bitcoin.dashjr.org'),
-                 ('bitcoinstats.com', 'seed.bitcoinstats.com'),
-                 ('xf2.org', 'bitseed.xf2.org'))
-    BASE58_PREFIXES = {'PUBKEY_ADDR':0,
-                       'SCRIPT_ADDR':5,
-                       'SECRET_KEY' :128}
+    MESSAGE_START = b'\xaf\x45\x76\xee'
+    DEFAULT_PORT = 10888
+    RPC_PORT = 10889
+    DNS_SEEDS = (('seed2.myriadcoin.org', 'seed1.myriadcoin.org'))
+
+    BASE58_PREFIXES = {'PUBKEY_ADDR':50,
+                       'SCRIPT_ADDR':9,
+                       'SECRET_KEY' :178}
 
 class TestNetParams(bitcoin.core.CoreTestNetParams):
     MESSAGE_START = b'\x0b\x11\x09\x07'
@@ -57,8 +54,8 @@ def SelectParams(name):
     if name == 'mainnet':
         params = bitcoin.core.coreparams = MainParams()
     elif name == 'testnet':
-        params = bitcoin.core.coreparams = TestNetParams()
+        params = bitcoin.core.coreparams = MainParams()
     elif name == 'regtest':
-        params = bitcoin.core.coreparams = RegTestParams()
+        params = bitcoin.core.coreparams = MainParams()
     else:
         raise ValueError('Unknown chain %r' % name)
